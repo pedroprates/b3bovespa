@@ -43,6 +43,9 @@ class B3Scrapper:
         path = path_browser_driver(is_chrome=self._is_chrome, path=path)
         self.driver = _browser(executable_path=path)
 
+    def __del__(self):
+        self.close()
+
     def load_companies_data(self, path: str):
         """
         Load a CSV file with companies data
