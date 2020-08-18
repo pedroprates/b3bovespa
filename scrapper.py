@@ -1,5 +1,6 @@
 import os
 import time
+from logging import warning
 from datetime import datetime
 from collections import deque
 from typing import Optional
@@ -14,7 +15,7 @@ from utils.constants import B3_URL, B3_FRAME, STARTING_CLASS_NAME, B3_COMPANY_FR
 
 
 class B3Scrapper:
-    def __init__(self, path, browser: str = 'Chrome', output_path: str = ''):
+    def __init__(self, path, browser: str = 'Chrome', output_path: Optional[str] = None):
         """
         Creates the base browser object for the web scrapping (using selenium). Currently it only supports
         Chrome or Firefox.
@@ -60,7 +61,6 @@ class B3Scrapper:
         Returns:
             pd.DataFrame: dataframe containing the name, link and code for each company on B3 Bovespa.
         """
-        print('B3 Companies Scrapper')
         df = self._get_companies_link()
         tqdm.pandas(desc='Getting Codes', bar_format='{l_bar}  {bar}|  {n_fmt}/{total_fmt} companies')
         df['Code'] = df.progress_apply(self._get_company_codes, axis=1)
@@ -173,7 +173,7 @@ class B3Scrapper:
 
         if self._output_path is not None:
             if not os.path.isdir(self._output_path):
-                print(f'Warning: {self._output_path} not a valid directory')
+                warning(f'{self._output_path} not a valid directory')
             else:
                 output_path = self._output_path
 
