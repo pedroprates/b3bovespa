@@ -1,2 +1,6 @@
 data/
-__pycache__/
+*/__pycache__/
+B3Bovespa.egg-info/
+build/
+dist/
+.idea/
