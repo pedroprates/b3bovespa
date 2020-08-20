@@ -33,10 +33,11 @@ It will install as dependencies [Selenium](https://github.com/baijum/selenium-py
  the path of the browser driver (as discussed in [here](#Drivers)), the chosen driver (`B3Bovespa` supports both Firefox
  and Chrome) and the output path to export the company list on a CSV format.
  
- ```python
+```python
 from b3bovespa import B3Scrapper
 
-b3 = B3Scrapper(path=DRIVER_PATH, browser='Chrome', output_path='/usr/companies/')
+DRIVER_PATH = 'path/to/drive'
+b3 = B3Scrapper(path=DRIVER_PATH, browser="Chrome", output_path="/usr/companies/")
 ```
 
 With the `B3Scrapper` object, it is simple to get the information from all the companies listed on Bovespa,
