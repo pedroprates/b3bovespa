@@ -1,6 +1,6 @@
 import os
 import time
-from logging import warning
+from logging import warning, error
 from datetime import datetime
 from collections import deque
 from typing import Optional
@@ -9,6 +9,7 @@ from selenium.webdriver import Chrome, Firefox
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
 from tqdm import tqdm
 from utils.utils import path_browser_driver, grouper
 from utils.constants import B3_URL, B3_FRAME, STARTING_CLASS_NAME, B3_COMPANY_FRAME, COMPANY_CLASS
@@ -91,11 +92,17 @@ class B3Scrapper:
         df = pd.DataFrame(columns=['Razao Social', 'Nome Pregao', 'Inicial', 'Link'])
         self.driver.get(B3_URL)
         t = tqdm(desc='Getting Initial Data', total=len(starting_list),
-                 bar_format='{l_bar}  {bar}|  {n_fmt}/{total_fmt} - {postfix}')
+                 bar_format='{l_bar}  {bar}|  {n_fmt}/{total_fmt}{postfix}')
 
         while starting_list:
             starting_char = starting_list.pop()
-            frame = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, B3_FRAME)))
+            try:
+                frame = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, B3_FRAME)))
+            except TimeoutException:
+                error('B3 site is not responding')
+                self.driver.get(B3_URL)
+                continue
+
             self.driver.switch_to.frame(frame)
 
             element = WebDriverWait(self.driver, 10)\
@@ -141,7 +148,12 @@ class B3Scrapper:
         """
         self.driver.get(series.Link)
 
-        frame = WebDriverWait(self.driver, 30).until(EC.presence_of_element_located((By.ID, B3_COMPANY_FRAME)))
+        try:
+            frame = WebDriverWait(self.driver, 30).until(EC.presence_of_element_located((By.ID, B3_COMPANY_FRAME)))
+        except TimeoutException:
+            warning('Site is not responding')
+            return None
+
         self.driver.switch_to.frame(frame)
 
         codes = self.driver.find_elements_by_class_name(COMPANY_CLASS)
