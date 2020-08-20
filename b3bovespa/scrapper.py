@@ -1,6 +1,6 @@
 import os
 import time
-from logging import warning, error
+from logging import warning
 from datetime import datetime
 from collections import deque
 from typing import Optional
@@ -99,7 +99,7 @@ class B3Scrapper:
             try:
                 frame = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, B3_FRAME)))
             except TimeoutException:
-                error('B3 site is not responding')
+                warning('B3 site is not responding')
                 self.driver.get(B3_URL)
                 continue
 
