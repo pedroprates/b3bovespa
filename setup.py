@@ -9,7 +9,7 @@ with open('HISTORY.md') as history_file:
 
 setup_args = dict(
     name='B3Bovespa',
-    version='0.1',
+    version='0.1.1',
     description='Package for web-scrapping companies from B3Bovespa',
     long_description_content_type='text/markdown',
     long_description=README + '\n\n' + HISTORY,
