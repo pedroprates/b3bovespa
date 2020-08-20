@@ -11,8 +11,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from tqdm import tqdm
-from utils.utils import path_browser_driver, grouper
-from utils.constants import B3_URL, B3_FRAME, STARTING_CLASS_NAME, B3_COMPANY_FRAME, COMPANY_CLASS
+from .utils.utils import path_browser_driver, grouper
+from .utils.constants import B3_URL, B3_FRAME, STARTING_CLASS_NAME, B3_COMPANY_FRAME, COMPANY_CLASS
 
 
 class B3Scrapper:

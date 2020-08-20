@@ -6,3 +6,6 @@
 - Adding [B3Bovespa]('http://www.b3.com.br/pt_br/produtos-e-servicos/negociacao/renda-variavel/empresas-listadas.htm') 
 as base website for scrapping
 - Adding `tqdm` progress bar to keep track
+
+## [0.1.1] - 2020-08-20
+- Bug fixes: fixing broken import
